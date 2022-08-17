@@ -1,62 +1,67 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-class Explore extends React.Component{
+const Explore = (props) => {
+  const [places, setPlaces] = useState([]);
+  const [error, setError] = useState("");
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    retrievePlaces();
+  }, []);
 
-    render(){
-        return(
-            <div className="grid grid-cols-3 m-10 gap-10">
-                <div>
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full" src="japan.jpg" alt="Sunset in the mountains" />
-                    <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">The Land of Rising Sun</div>
-                        <p class="text-gray-700 text-base">
-                        Both Nippon and Nihon literally mean "the sun's origin", that is, where the sun originates, and are often translated as the Land of the Rising Sun.
-                        </p>
-                        </div>
-                        <div class="px-6 pt-4 pb-2">
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#japan</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#anime</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#arigato</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full" src="india.jpg" alt="Sunset in the mountains" />
-                    <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">The Land of Diversity</div>
-                        <p class="text-gray-700 text-base">
-                        India is a kaleidoscope of cultures that includes umpteen variations in food, clothing, language, music and religious beliefs. This colourful spread has been shaped by the long history and unique geography of this land.
-                        </p>
-                        </div>
-                        <div class="px-6 pt-4 pb-2">
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#india</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#monuments</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#namaste</span>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div class="max-w-sm rounded overflow-hidden shadow-lg">
-                    <img class="w-full" src="australia.jpg" alt="Sunset in the mountains" />
-                    <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">The Land Down Under</div>
-                        <p class="text-gray-700 text-base">
-                        Australia is colloquially known as "the Land Down Under" (or just "Down Under"), which derives from the country's position in the Southern Hemisphere, at the antipodes of the United Kingdom.
-                        </p>
-                        </div>
-                        <div class="px-6 pt-4 pb-2">
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#australia</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#beaches</span>
-                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#oi mate</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        )
+  async function retrievePlaces() {
+    try {
+      let response = await axios.get("http://localhost:5000/api/v1/places");
+      setPlaces(response.data.places);
+      console.log(response.data.places);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+      setPlaces(null);
+    } finally {
+      setIsLoaded(true);
     }
-}
+  }
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
+    console.log(error);
+  }
+  return (
+    <div className="grid grid-cols-3 m-10 gap-10">
+      {places.map((place) => {
+        const { _id, name, desc, tags, image } = place;
+        return (
+          <div key={_id}>
+            <div className="max-w-sm rounded overflow-hidden shadow-lg">
+              <img
+                className="w-full"
+                src={image}
+                alt="Sunset in the mountains"
+              />
+              <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2">{name}</div>
+                <p className="text-gray-700 text-base">` {desc}</p>
+              </div>
+              <div className="px-6 pt-4 pb-2">
+                {tags.map((tag) => {
+                  return (
+                    <span
+                      key={tag}
+                      className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                    >
+                      {"#" + tag}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 export default Explore;

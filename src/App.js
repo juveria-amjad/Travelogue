@@ -35,7 +35,7 @@ function App() {
           <FontAwesomeIcon icon={faSearch} size="lg" />
         </button>
       </form>
-      {/* <Country key={country} name={country} /> */}
+      <Country key={country} name={country} />
     </div>
   );
 }
