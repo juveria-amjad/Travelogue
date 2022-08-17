@@ -17,7 +17,7 @@ const Trip = ({ iso, capital }) => {
               capital
             ) +
               "&country=".concat(iso) +
-              "&apikey=5ae2e3f221c38a28845f05b62bde47f6ee07cbf5706d69095a5742ce"
+              "&apikey=<apikey>"
           );
           setLocation([response.data.lon, response.data.lat]);
           setError(null);
@@ -41,7 +41,7 @@ const Trip = ({ iso, capital }) => {
           capital
         ) +
           "&country=".concat(iso) +
-          "&apikey=5ae2e3f221c38a28845f05b62bde47f6ee07cbf5706d69095a5742ce"
+          "&apikey=<apikey>"
       );
       setLocation([response.data.lon, response.data.lat]);
       setError(null);
