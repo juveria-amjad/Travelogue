@@ -15,7 +15,7 @@ const Fun = ({ position }) => {
             position[0]
           ) +
           "&lat=".concat(position[1]) +
-          "&limit=10&apikey=5ae2e3f221c38a28845f05b62bde47f6ee07cbf5706d69095a5742ce";
+          "&limit=10&apikey=<apikey>";
 
         console.log(string);
         let response = await axios.get(string);
@@ -41,7 +41,7 @@ const Fun = ({ position }) => {
           position[0]
         ) +
         "&lat=".concat(position[1]) +
-        "&limit=10&apikey=5ae2e3f221c38a28845f05b62bde47f6ee07cbf5706d69095a5742ce";
+        "&limit=10&apikey=<apikey>";
       let response = await axios.get(string);
       setVisit(response.data.features);
       setProblem(null);
