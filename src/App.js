@@ -24,7 +24,7 @@ function App() {
         <input
           className="p-3 border-2 border-gray-300 w-30 h-30 rounded-lg tracking-wide focus:outline-none focus:accent-orange-300"
           type="text"
-          placeholder="Search"
+          placeholder="Search here"
           value={value}
           onChange={(e) => {
             e.preventDefault();
